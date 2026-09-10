@@ -800,29 +800,35 @@ function ForgivenessSection() {
   const [timeButtonPos, setTimeButtonPos] = useState({ x: 0, y: 0 });
   const [dodgeCount, setDodgeCount] = useState(0);
 
-  const moveTimeButton = () => {
+  const moveTimeButton = (e?: React.SyntheticEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (typeof window === "undefined") return;
     const isMobile = window.innerWidth < 640;
-    const maxRangeX = isMobile ? 110 : 240;
-    const maxRangeY = isMobile ? 90 : 150;
+    const maxRangeX = isMobile ? 120 : 260;
+    const maxRangeY = isMobile ? 100 : 160;
 
-    // Calculate new random displacement ensuring it jumps a minimum distance
-    const signX = Math.random() > 0.5 ? 1 : -1;
-    const signY = Math.random() > 0.5 ? 1 : -1;
-    const randomX = signX * (40 + Math.random() * (maxRangeX - 40));
-    const randomY = signY * (30 + Math.random() * (maxRangeY - 30));
+    // Pick a new position noticeably different from the current position
+    let newX = 0;
+    let newY = 0;
+    do {
+      const signX = Math.random() > 0.5 ? 1 : -1;
+      const signY = Math.random() > 0.5 ? 1 : -1;
+      newX = signX * (50 + Math.random() * (maxRangeX - 50));
+      newY = signY * (40 + Math.random() * (maxRangeY - 40));
+    } while (
+      Math.abs(newX - timeButtonPos.x) < 60 &&
+      Math.abs(newY - timeButtonPos.y) < 50
+    );
 
-    setTimeButtonPos({ x: randomX, y: randomY });
+    setTimeButtonPos({ x: newX, y: newY });
     setDodgeCount((prev) => prev + 1);
   };
 
   const handleForgive = () => {
     setResponse("forgive");
-    setTimeButtonPos({ x: 0, y: 0 });
-  };
-
-  const handleTime = () => {
-    setResponse("time");
     setTimeButtonPos({ x: 0, y: 0 });
   };
 
@@ -896,18 +902,22 @@ function ForgivenessSection() {
                 }}
                 transition={{
                   type: "spring",
-                  stiffness: 400,
-                  damping: 22,
+                  stiffness: 450,
+                  damping: 20,
                 }}
                 onMouseEnter={moveTimeButton}
+                onMouseDown={moveTimeButton}
+                onPointerDown={moveTimeButton}
                 onTouchStart={moveTimeButton}
                 className="w-full sm:w-auto relative z-20"
               >
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto transition-colors"
-                  onClick={handleTime}
+                  className="w-full sm:w-auto transition-colors select-none pointer-events-auto"
+                  onClick={moveTimeButton}
+                  onMouseDown={moveTimeButton}
+                  onTouchStart={moveTimeButton}
                 >
                   {dodgeCount === 0
                     ? "I need some time"
@@ -916,8 +926,12 @@ function ForgivenessSection() {
                     : dodgeCount === 2
                     ? "Think again! 💭"
                     : dodgeCount === 3
+                    ? "Nice try! 🏃💨"
+                    : dodgeCount === 4
+                    ? "Can't click this! ✨"
+                    : dodgeCount === 5
                     ? "Please forgive me ❤️"
-                    : "I need some time"}
+                    : "You must forgive me! 😉"}
                 </Button>
               </motion.div>
             </motion.div>
