@@ -729,7 +729,7 @@ function StoryTimeline() {
     <section
       ref={sectionRef}
       id="story"
-      className="bg-wine px-4 py-20 text-white sm:px-8 sm:py-28 md:px-10 md:py-36"
+      className="bg-wine px-4 py-20 text-white sm:px-8 sm:py-28 md:px-10 md:py-36 overflow-hidden"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-14 max-w-2xl sm:mb-20">
@@ -747,33 +747,42 @@ function StoryTimeline() {
           </p>
         </div>
 
+        {/* Timeline Container */}
         <div className="relative">
-          {/* Vertical progress rail */}
-          <div className="absolute bottom-0 left-[6px] top-0 w-px bg-white/15 md:left-[179px] lg:left-[219px]" />
-          <div className="timeline-progress absolute bottom-0 left-[6px] top-0 w-px origin-top bg-blush md:left-[179px] lg:left-[219px]" />
+          {/* Vertical progress rail (Mobile: left-3.5 = 14px; Desktop: left-[180px]) */}
+          <div className="absolute bottom-2 top-2 left-[14px] w-[2px] bg-white/15 md:left-[180px]" />
+          <div className="timeline-progress absolute bottom-2 top-2 left-[14px] w-[2px] origin-top bg-blush shadow-[0_0_12px_rgba(233,191,196,0.6)] md:left-[180px]" />
 
-          <div className="space-y-10 sm:space-y-14 md:space-y-20">
+          <div className="space-y-12 sm:space-y-16 md:space-y-20">
             {TIMELINE.map((item) => (
               <div
                 key={item.year}
-                className="timeline-item grid grid-cols-[30px_1fr] gap-4 sm:gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]"
+                className="timeline-item relative flex flex-col md:grid md:grid-cols-[180px_1fr] md:gap-12"
               >
-                {/* Timeline Year tag */}
-                <div className="relative z-10 flex items-start md:justify-end md:pr-10">
-                  <span className="font-mono text-[11px] tracking-widest text-blush sm:text-xs">
+                {/* Desktop Year column */}
+                <div className="hidden md:flex items-start justify-end pr-10">
+                  <span className="font-mono text-xs tracking-widest text-blush font-medium">
                     {item.year}
                   </span>
                 </div>
 
-                {/* Timeline Content */}
-                <div className="relative pl-2 sm:pl-4 md:pl-8">
-                  <div className="absolute -left-[14px] top-1 size-2.5 rounded-full border-2 border-wine bg-blush sm:-left-[18px] sm:size-3 md:-left-[7px]" />
+                {/* Timeline Content Block (Mobile has left padding to clear the vertical rail) */}
+                <div className="relative pl-10 sm:pl-12 md:pl-0">
+                  {/* Timeline Node Bead centered on the rail */}
+                  <div className="absolute left-[8px] top-1.5 size-3.5 rounded-full border-2 border-wine bg-blush shadow-[0_0_10px_rgba(233,191,196,0.8)] md:-left-[54px] md:top-2 sm:size-4 md:size-4" />
 
-                  <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+                  {/* Mobile Year Badge */}
+                  <div className="mb-2 md:hidden">
+                    <span className="inline-block rounded-full bg-white/10 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-blush font-semibold">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white leading-snug">
                     {item.title}
                   </h3>
 
-                  <p className="mt-2.5 max-w-xl text-xs leading-6 text-white/55 sm:mt-4 sm:text-sm sm:leading-7 md:text-base">
+                  <p className="mt-2.5 max-w-xl text-xs leading-6 text-white/65 sm:mt-3.5 sm:text-sm sm:leading-7 md:text-base">
                     {item.text}
                   </p>
                 </div>
