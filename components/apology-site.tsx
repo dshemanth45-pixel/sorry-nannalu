@@ -797,13 +797,39 @@ function ForgivenessSection() {
   >("none");
 
   const [message, setMessage] = useState("");
+  const [timeButtonPos, setTimeButtonPos] = useState({ x: 0, y: 0 });
+  const [dodgeCount, setDodgeCount] = useState(0);
+
+  const moveTimeButton = () => {
+    if (typeof window === "undefined") return;
+    const isMobile = window.innerWidth < 640;
+    const maxRangeX = isMobile ? 110 : 240;
+    const maxRangeY = isMobile ? 90 : 150;
+
+    // Calculate new random displacement ensuring it jumps a minimum distance
+    const signX = Math.random() > 0.5 ? 1 : -1;
+    const signY = Math.random() > 0.5 ? 1 : -1;
+    const randomX = signX * (40 + Math.random() * (maxRangeX - 40));
+    const randomY = signY * (30 + Math.random() * (maxRangeY - 30));
+
+    setTimeButtonPos({ x: randomX, y: randomY });
+    setDodgeCount((prev) => prev + 1);
+  };
 
   const handleForgive = () => {
     setResponse("forgive");
+    setTimeButtonPos({ x: 0, y: 0 });
   };
 
   const handleTime = () => {
     setResponse("time");
+    setTimeButtonPos({ x: 0, y: 0 });
+  };
+
+  const handleReset = () => {
+    setResponse("none");
+    setTimeButtonPos({ x: 0, y: 0 });
+    setDodgeCount(0);
   };
 
   return (
@@ -842,7 +868,7 @@ function ForgivenessSection() {
               key="buttons"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-10 flex flex-col justify-center gap-3 sm:mt-12 sm:flex-row"
+              className="mt-10 flex flex-col justify-center gap-3 sm:mt-12 sm:flex-row items-center"
             >
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -856,17 +882,34 @@ function ForgivenessSection() {
               </motion.div>
 
               <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full sm:w-auto"
+                animate={{
+                  x: timeButtonPos.x,
+                  y: timeButtonPos.y,
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 22,
+                }}
+                onMouseEnter={moveTimeButton}
+                onTouchStart={moveTimeButton}
+                className="w-full sm:w-auto relative z-20"
               >
                 <Button
                   size="lg"
                   variant="outline"
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto transition-colors"
                   onClick={handleTime}
                 >
-                  I need some time
+                  {dodgeCount === 0
+                    ? "I need some time"
+                    : dodgeCount === 1
+                    ? "Are you sure? 🥺"
+                    : dodgeCount === 2
+                    ? "Think again! 💭"
+                    : dodgeCount === 3
+                    ? "Please forgive me ❤️"
+                    : "I need some time"}
                 </Button>
               </motion.div>
             </motion.div>
@@ -897,7 +940,7 @@ function ForgivenessSection() {
               </p>
 
               <button
-                onClick={() => setResponse("none")}
+                onClick={handleReset}
                 className="mt-6 text-[11px] uppercase tracking-widest text-wine/50 hover:text-wine sm:mt-7 sm:text-xs"
               >
                 Change response
@@ -925,7 +968,7 @@ function ForgivenessSection() {
               </p>
 
               <button
-                onClick={() => setResponse("none")}
+                onClick={handleReset}
                 className="mt-6 text-[11px] uppercase tracking-widest text-wine/50 hover:text-wine sm:mt-7 sm:text-xs"
               >
                 Go back
