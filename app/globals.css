@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #fbf7f3;
+  --foreground: #2b2022;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #e9bfc4;
+  color: #2b2022;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+textarea {
+  font: inherit;
+}
+
+.font-serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.font-handwriting {
+  font-family: var(--font-handwriting), cursive;
+}
+
+.font-sans {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* -------------------------------------------------------
+   Paper texture
+------------------------------------------------------- */
+
+.paper-texture {
+  position: relative;
+}
+
+.paper-texture::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  z-index: 50;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+/* -------------------------------------------------------
+   Decorative blobs
+------------------------------------------------------- */
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  max-width: 90vw;
+  max-height: 90vw;
+}
+
+.orb-one {
+  width: 420px;
+  height: 420px;
+  background: rgba(233, 191, 196, 0.42);
+}
+
+.orb-two {
+  width: 300px;
+  height: 300px;
+  background: rgba(215, 171, 143, 0.25);
+}
+
+/* -------------------------------------------------------
+   Typography
+------------------------------------------------------- */
+
+.hero-title {
+  font-family: var(--font-serif), Georgia, serif;
+  letter-spacing: -0.025em;
+  line-height: 0.92;
+}
+
+.section-title {
+  font-family: var(--font-serif), Georgia, serif;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+/* -------------------------------------------------------
+   Quote cards
+------------------------------------------------------- */
+
+.quote-card {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.86),
+      rgba(245,237,231,0.72)
+    );
+  border: 1px solid rgba(113, 60, 70, 0.1);
+  box-shadow: 0 20px 70px rgba(92, 49, 58, 0.08);
+}
+
+.quote-card::after {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  right: -70px;
+  top: -70px;
+  border-radius: 50%;
+  background: rgba(233,191,196,0.25);
+  filter: blur(20px);
+}
+
+/* -------------------------------------------------------
+   Hide scrollbar but retain scrolling
+------------------------------------------------------- */
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* -------------------------------------------------------
+   Accessibility
+------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}
