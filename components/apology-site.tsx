@@ -19,7 +19,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { Button } from "./ui/button";
 import { Card } from "./ui/card";
-import { Textarea } from "./ui/textarea";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -796,7 +795,6 @@ function ForgivenessSection() {
     "forgive" | "time" | "none"
   >("none");
 
-  const [message, setMessage] = useState("");
   const [timeButtonPos, setTimeButtonPos] = useState({ x: 0, y: 0 });
   const [dodgeCount, setDodgeCount] = useState(0);
 
@@ -998,29 +996,6 @@ function ForgivenessSection() {
             </motion.div>
           )}
         </AnimatePresence>
-
-        <div className="mx-auto mt-12 max-w-xl text-left sm:mt-14">
-          <label
-            htmlFor="personal-response"
-            className="mb-2.5 block text-[11px] font-semibold uppercase tracking-[0.18em] text-wine/60 sm:mb-3 sm:text-xs"
-          >
-            Or tell me what you're feeling
-          </label>
-
-          <Textarea
-            id="personal-response"
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-            placeholder="Write anything you want me to know..."
-            aria-label="Your response"
-          />
-
-          {message.trim() && (
-            <p className="mt-2.5 text-right text-xs text-wine/40 sm:mt-3">
-              {message.length} characters
-            </p>
-          )}
-        </div>
       </div>
     </section>
   );
