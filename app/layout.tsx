@@ -26,6 +26,14 @@ const alexBrush = Alex_Brush({
 export const metadata: Metadata = {
   title: "A Letter I Owe You",
   description: "A little corner of the internet dedicated to one sincere apology.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({
