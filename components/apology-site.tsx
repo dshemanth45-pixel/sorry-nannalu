@@ -873,6 +873,14 @@ function ForgivenessSection() {
               <motion.div
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
+                onMouseEnter={() => {
+                  setTimeButtonPos({ x: 0, y: 0 });
+                  setDodgeCount(0);
+                }}
+                onTouchStart={() => {
+                  setTimeButtonPos({ x: 0, y: 0 });
+                  setDodgeCount(0);
+                }}
                 className="w-full sm:w-auto"
               >
                 <Button size="lg" className="w-full sm:w-auto" onClick={handleForgive}>
